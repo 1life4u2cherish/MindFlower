@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mind And Flower Collective | Coastal Psychiatry & Integrative Wellness</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #C88FCF; /* Soft Purple Branding */
+            --rose: #D8A2A9; 
+            --teal: #4E9FA1; 
+            --sand: #F6F1EB; 
+            --plum: #4B3A55; 
+            --white: #FFFFFF;
+            --shadow: 0 15px 30px rgba(75, 58, 85, 0.08);
+            --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        /* TIGHTENED LINE HEIGHT FOR CONDENSED READING */
+        body { margin: 0; font-family: 'Montserrat', sans-serif; background: var(--sand); color: var(--plum); line-height: 1.5; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+        
+        /* Navigation - RESTORED TO YOUR EXACT SIZES */
+        nav { 
+            padding: 15px 2%; display: flex; justify-content: space-between; align-items: center; 
+            background: rgba(255,255,255,0.98); backdrop-filter: blur(15px); position: sticky; top: 0; z-index: 1000;
+            border-bottom: 1px solid rgba(75, 58, 85, 0.05);
+        }
+        .brand { 
+            font-family: 'Montserrat', sans-serif; 
+            font-size: clamp(1.4rem, 2vw, 1.8rem); 
+            font-weight: 400; 
+            text-decoration: none; 
+            color: var(--plum); 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            transition: var(--transition); 
+            cursor: pointer; 
+            position: relative; 
+            z-index: 1001;
+        }
+        .brand:hover { opacity: 0.8; }
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 0.9;
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(1rem, 1.2vw, 1.3rem);
+        }
+        .logo-text span { display: block; }
+        
+        .logo-mark { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--rose)); box-shadow: 0 4px 10px rgba(200, 143, 207, 0.3); flex-shrink: 0; }
+        
+        /* Navigation & Centered Links - RESTORED TO YOUR EXACT SIZES */
+        .nav-links { display: flex; gap: clamp(25px, 3vw, 45px); align-items: center; flex-grow: 1; }
+        
+        @media (min-width: 901px) {
+            .nav-links a:first-child { margin-left: auto; }
+            .nav-links a.btn-primary { margin-left: auto; }
+        }
+
+        .nav-links a { text-decoration: none; color: var(--plum); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: var(--transition); cursor: pointer; position: relative; padding-bottom: 5px; display: inline-block;}
+        .nav-links a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 0; left: 0; background-color: var(--primary); transition: var(--transition); }
+        .nav-links a.nav-item:not(.btn-primary):hover::after, .nav-links a.active:not(.btn-primary)::after { width: 100%; }
+        .nav-links a.nav-item:not(.btn-primary):hover, .nav-links a.active:not(.btn-primary) { color: var(--primary); }
+
+        /* Hamburger Menu - RESTORED TO YOUR EXACT SIZES */
+        .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 6px; z-index: 1001; }
+        .hamburger span { width: 30px; height: 2px; background-color: var(--plum); transition: var(--transition); border-radius: 2px; }
+
+        /* Page System */
+        .page { display: none; min-height: 80vh; }
+        .page.active { display: block; animation: fadeInPage 0.8s ease; }
+        @keyframes fadeInPage { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Scroll Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hero Section - Reduced height slightly so users naturally scroll */
+        .hero {
+            position: relative;
+            min-height: 80vh;
+            padding: 80px 20px;
+            display: flex; align-items: center; justify-content: center; text-align: center; color: white;
+            overflow: hidden;
+        }
+        .hero-video {
+            position: absolute;
+            top: 50%; left: 50%;
+            min-width: 100%; min-height: 100%;
+            width: auto; height: auto;
+            transform: translateX(-50%) translateY(-50%);
+            z-index: 0;
+            object-fit: cover;
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(75, 58, 85, 0.5), rgba(75, 58, 85, 0.3));
+            z-index: 1;
+        }
+        .hero-content { 
+            position: relative;
+            z-index: 2;
+            max-width: 1100px; 
+            width: 100%;
+        }
+        
+        /* SMALLER, DYNAMIC HEADINGS */
+        h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 5vw, 3.8rem); margin: 0; font-style: italic; line-height: 1.1; font-weight: 500;}
+        h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 15px; color: var(--plum); line-height: 1.2;}
+        .hero p { font-size: clamp(0.9rem, 2vw, 1.1rem); letter-spacing: 2px; text-transform: uppercase; margin-top: 15px; font-weight: 500; }
+
+        /* TIGHTER SECTION PADDING (Down from 120px) */
+        section { padding: clamp(50px, 6vw, 80px) 5%; }
+        .bg-white { background: white; }
+        .bg-img-section {
+            background: linear-gradient(rgba(246, 241, 235, 0.95), rgba(246, 241, 235, 0.95)), url('https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover; background-position: center;
+            background-attachment: fixed;
+        }
+        .kicker { text-transform: uppercase; letter-spacing: 2px; color: var(--primary); font-weight: 700; font-size: 0.85rem; margin-bottom: 10px; display: block;}
+
+        /* Content Balancing */
+        .text-center-box { max-width: 900px; margin: auto; text-align: center; }
+        .text-center-box p { font-size: clamp(0.95rem, 1.8vw, 1.15rem); opacity: 0.9; margin-top: 10px; margin-bottom: 0;}
+
+        /* The Cinematic Video Wrapper */
+        .video-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 8px solid white;
+            line-height: 0;
+        }
+        .video-wrapper video {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        /* The Collective Bloom - Condensed Spacing */
+        .petal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(15px, 3vw, 30px); margin-top: 35px; }
+        .petal-card { 
+            background: var(--white); padding: clamp(20px, 3vw, 35px) clamp(15px, 2.5vw, 25px); border-radius: 35px; text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02); transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.03);
+            display: flex; flex-direction: column; align-items: center;
+            height: 100%; 
+        }
+        .petal-card:hover { transform: translateY(-8px); box-shadow: var(--shadow); border-color: var(--rose); }
+        .petal-img { 
+            width: clamp(120px, 15vw, 180px); 
+            height: clamp(120px, 15vw, 180px); 
+            border-radius: 50%; 
+            object-fit: cover; 
+            margin-bottom: 20px; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08); 
+            border: 6px solid white; 
+            flex-shrink: 0; 
+        }
+        .petal-card p { flex-grow: 1; margin: 0; font-size: 0.9rem; }
+
+        /* Services Grid & Cards - Condensed Spacing */
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(15px, 3vw, 30px); margin-top: 35px;}
+        .card { 
+            background: white; padding: clamp(20px, 3vw, 30px); border-radius: 30px; border: 1px solid rgba(0,0,0,0.03);
+            transition: var(--transition); box-shadow: 0 10px 30px rgba(0,0,0,0.02); display: flex; flex-direction: column; height: 100%;
+        }
+        .card:hover { transform: translateY(-8px); box-shadow: var(--shadow); }
+        .card h3 { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.4rem, 2.5vw, 2rem); color: var(--teal); margin: 0 0 12px;}
+        .card-img { height: clamp(160px, 20vw, 220px); border-radius: 20px; margin-bottom: 20px; background-size: cover; background-position: center; width: 100%; flex-shrink: 0; }
+        .card p { flex-grow: 1; margin: 0; font-size: 0.9rem; }
+
+        /* Profile Layout */
+        .split { display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(40px, 6vw, 80px); align-items: start; max-width: 1200px; margin: 0 auto; }
+        
+        /* Added a tiny 8px top margin so the top of the photo frame matches the visual top of the text perfectly */
+        .profile-wrapper { position: relative; width: 100%; max-width: 500px; margin: 10px auto; margin-top: 20px;margin-bottom: -20px; }
+        
+        .profile-bg {
+            position: absolute; 
+            top: -35px; 
+            left: -35px; 
+            right: -35px; 
+            bottom: -35px; 
+            background: url('https://69a211bacc88fe0ef9bdfa55.imgix.net/MindAndFlower/SmallerFlowerBorder8.png?auto=format&fit=crop') center / 100% 100% no-repeat;
+            border-radius: 25px; 
+            opacity: 0.95; z-index: 0;
+            box-shadow: 0 15px 40px rgba(200, 143, 207, 0.4);
+        }
+
+        .profile-photo { 
+            width: 100%; border-radius: 40px; position: relative; z-index: 1;
+            box-shadow: var(--shadow); 
+            border: 2px solid white; 
+            background: white; 
+            object-fit: cover; 
+            aspect-ratio: 3.75/5; 
+            display: block; 
+        }
+        
+        /* Contact Form Layout */
+        .contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; max-width: 1000px; margin: auto; text-align: left; align-items: start; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 0.85rem; color: var(--plum); }
+        .form-control { width: 100%; padding: 14px 20px; border: 1px solid rgba(0,0,0,0.1); border-radius: 15px; font-family: inherit; font-size: 0.95rem; background: var(--sand); transition: var(--transition); color: var(--plum); }
+        .form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(200, 143, 207, 0.2); background: white; }
+        textarea.form-control { resize: vertical; min-height: 120px; }
+
+        .tag-container { margin: 10px 0; display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; }
+        .tag { padding: 4px 15px; background: var(--sand); border-radius: 25px; font-size: 0.7rem; font-weight: 700; color: var(--teal); text-transform: uppercase; }
+
+        /* Buttons */
+        .btn-container { margin-top: 35px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+        .btn { display: inline-block; padding: 16px 32px; border-radius: 100px; text-decoration: none; font-weight: 600; letter-spacing: 1px; transition: var(--transition); cursor: pointer; border: none; font-size: 0.9rem; text-align: center; }
+        .btn-primary { background: var(--primary); color: white !important; box-shadow: 0 10px 25px rgba(200, 143, 207, 0.3); }
+        .btn-primary:hover { background: var(--plum); transform: translateY(-3px); box-shadow: 0 15px 35px rgba(75, 58, 85, 0.2); color: white !important; }
+        .btn-outline { border: 2px solid var(--primary); color: var(--primary); background: transparent; }
+        .btn-outline:hover { background: var(--primary); color: white; transform: translateY(-3px); }
+
+        footer { padding: 60px 5%; text-align: center; border-top: 1px solid rgba(0,0,0,0.05); background: white; }
+        
+        /* Mobile Specific Overrides */
+        @media (max-width: 900px) {
+            .split { grid-template-columns: 1fr; text-align: center; }
+            .grid, .petal-grid { grid-template-columns: 1fr; gap: 25px; } 
+            .contact-grid { grid-template-columns: 1fr; }
+            .profile-wrapper { margin-top: 30px !important; margin-bottom: 40px !important; max-width: 400px; }
+            .profile-photo { border-radius: 20px; }
+            .profile-bg { border-radius: 30px; top: -12px; left: -12px; right: -12px; bottom: -12px; }
+            .tag-container { justify-content: center; }
+            .btn-container { flex-direction: column; align-items: center; width: 100%; }
+            .btn { width: 100%; max-width: 350px; }
+            ul { text-align: left; display: inline-block; }
+
+            /* Mobile Navigation */
+            .hamburger { display: flex; }
+            .nav-links {
+                position: fixed; top: 0; right: -100%; width: 100vw; height: 100vh;
+                background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px);
+                flex-direction: column; justify-content: center; align-items: center;
+                transition: var(--transition); gap: 35px; z-index: 1000;
+            }
+            .nav-links.nav-active { right: 0; }
+            .nav-links a { font-size: 1.2rem; }
+            .nav-links a.nav-item.btn-primary { margin-left: 0; padding: 15px 35px; }
+
+            /* Hamburger Animation */
+            .hamburger.toggle span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .hamburger.toggle span:nth-child(2) { opacity: 0; }
+            .hamburger.toggle span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a class="brand" onclick="showPage('home')">
+            <img src="https://69a211bacc88fe0ef9bdfa55.imgix.net/MindAndFlower/MAFlogo.png?auto=format&fit=crop" alt="Mind and Flower Logo" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid white; box-shadow: 0 4px 9px rgba(200, 143, 207, 0.4); flex-shrink: 0;">
+    		<div class="logo-text">
+    			<span>Mind</span>
+    			<span>And</span>
+    			<span>Flower</span>
+		    </div>
+        </a>
+        <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="nav-links" id="nav-links">
+            <a onclick="showPage('home')" class="nav-item active" data-target="home">Sanctuary</a>
+            <a onclick="showPage('services')" class="nav-item" data-target="services">Space to Bloom</a>
+            <a onclick="showPage('collective')" class="nav-item" data-target="collective">The Collective</a>
+            <a onclick="showPage('about')" class="nav-item" data-target="about">About Us</a>
+            <a onclick="showPage('contact')" class="btn btn-primary nav-item" data-target="contact" style="color: white; padding: 12px 25px;">Get Started</a>
+        </div>
+    </nav>
+
+    <div id="home" class="page active">
+        
+        <div class="hero reveal">
+            <video autoplay loop muted playsinline class="hero-video">
+                <source src="https://69a211bacc88fe0ef9bdfa55.imgix.net/MindAndFlower/grok-video-f53e4c83-3f78-43e8-b324-659a595c4181.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="hero-overlay"></div>
+            
+            <div class="hero-content">
+                <span class="kicker" style="color: white; opacity: 0.9;">Rooted in clinical science. Blossoming in collective care.</span>
+                <h1>Clinical precision for the mind.<br>Coastal sanctuary for the flower.</h1>
+                <p>A safe space for your mind to flower in wellness from roots to petals</p>
+                <a class="btn btn-primary" style="margin-top:30px;" onclick="showPage('services')">Begin your season of growth</a>
+            </div>
+        </div>
+
+        <section class="bg-white reveal">
+            <div class="text-center-box">
+                <span class="kicker">The Connection</span>
+                <h2 style="font-style: italic;">The Mind is the clinical foundation.<br>The Flower is your beautiful becoming.</h2>
+                <p>At Mind And Flower, we believe total wellness requires both structure and softness. We offer an integrative ecosystem designed for your total vitality. Here, you are more than a diagnosis—you are a person in progress.</p>
+                <div class="btn-container">
+                    <a class="btn btn-primary" onclick="showPage('collective')">Explore the Collective Bloom</a>
+                    <a class="btn btn-outline" onclick="showPage('about')">About Us</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="reveal">
+            <div class="split">
+                <div class="profile-wrapper">
+                    <img src="https://69a211bacc88fe0ef9bdfa55.imgix.net/MindAndFlower/04ac0b3a-f23d-452a-aa15-6451c376c5d0.jpg?auto=format&fit=crop" alt="Gentle path forward" class="profile-photo">
+                </div>
+                <div>
+                    <span class="kicker">The Journey</span>
+                    <h2>Cultivating the mind so the heart can flourish.</h2>
+                    <p style="margin-bottom: 15px;"><strong>No judgment, no rush—just a gentle path forward.</strong> We provide expert medication management and supportive therapy tailored to modern lives. We give you the foundation so you can build your life.</p>
+                    <ul style="font-weight: 500; color: var(--teal); margin-bottom: 25px; list-style-type: '🌸 '; padding-left: 20px;">
+                        <li>Same-day appointments available</li>
+                        <li>Telehealth & House Calls across California</li>
+                        <li>Ages 18 to 103 served with dignity</li>
+                    </ul>
+                    <div style="margin-top: 10px;">
+                        <a onclick="showPage('contact')" style="color: var(--primary); font-weight: 700; cursor: pointer; text-decoration: underline; letter-spacing: 1px; display: inline-block;">Find your sunshine to flower again →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="services" class="page">
+        
+        <section class="bg-white reveal">
+            <div class="text-center-box" style="margin-bottom: 30px;">
+                <span class="kicker">The Transformation</span>
+                <h2>Every heart finds its season to bloom.</h2>
+                <p style="margin-bottom: 25px;">Witness the journey from a storm of the mind to a blossoming sanctuary.</p>
+            </div>
+            <div class="video-wrapper">
+                <video autoplay loop muted playsinline>
+                    <source src="https://69a211bacc88fe0ef9bdfa55.imgix.net/MindAndFlower/HD%20Final_MindFlowerTransformation.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </section>
+
+        <section class="bg-img-section reveal">
+            <div class="text-center-box">
+                <span class="kicker">Our Services</span>
+                <h2>Whole-person healing. From the roots of your mind to the petals of your life.</h2>
+                <p>We provide the soil and the rain; you bring the bloom. Discover our full spectrum of adult psychiatric care.</p>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <div class="card-img" style="background-image: url('https://69a211bacc88fe0ef9bdfa55.imgix.net/MindAndFlower/grok-image-70ba61d0-75e0-4843-a330-6ea9b10f3e7f.png');"></div>
+                    <h3>Psychiatry, Rooted in the Mind</h3>
+                    <p>Personalized medication management for ADHD, anxiety, depression, and mood disorders—designed to stabilize the mind so the rest of your life can bloom.</p>
+                </div>
+                <div class="card">
+                    <div class="card-img" style="background-image: url('https://69a211bacc88fe0ef9bdfa55.imgix.net/MindAndFlower/gGarden.jpg?auto=format&fit=crop');"></div>
+                    <h3>Geriatric Garden</h3>
+                    <p>A place where the later seasons of life are nurtured with dignity and care. We provide specialized geriatric psychiatric care for seniors navigating memory changes and cognitive transitions.</p>
+                </div>
+                <div class="card">
+                    <div class="card-img" style="background-image: url('https://69a211bacc88fe0ef9bdfa55.imgix.net/MindAndFlower/grok-image-13663c15-5f52-44f0-8e00-a0b8d9ec96ee.png?auto=format&fit=crop');"></div>
+                    <h3>Therapy from Roots to Petals</h3>
+                    <p>Emotionally focused therapy that respects the context of your individual life choices & relationships. Healing deepens when we find our way back to connect you from the roots to the petals.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="collective" class="page">
+        <section class="bg-white reveal">
+            <div class="text-center-box">
+                <span class="kicker">A Curated Network of Care</span>
+                <h2>Healing isn’t meant to happen in isolation. Welcome to the collective.</h2>
+                <p><strong>Your mind, supported by medicine. Your bloom, supported by a community.</strong> Where therapists, wellness experts, and psychiatry unite to create an integrative ecosystem designed for your total vitality.</p>
+            </div>
+
+            <div style="max-width: 1100px; margin: 35px auto 40px auto; border-radius: 35px; overflow: hidden; box-shadow: var(--shadow); border: 6px solid white;">
+                <img src="https://69a211bacc88fe0ef9bdfa55.imgix.net/MindAndFlower/ChatGPT%20Image%20Mar%207,%202026,%2008_52_26%20PM.png?auto=format&fit=crop&w=1200&h=500" alt="A thriving collective ecosystem" style="width: 100%; height: 100%; max-height: 400px; object-fit: cover; display: block;">
+            </div>
+
+            <div class="petal-grid">
+                <div class="petal-card">
+                    <img src="https://69a211bacc88fe0ef9bdfa55.imgix.net/MindAndFlower/56ca2afb-b3cb-4369-8e74-f962ba2fe2f4.jpg?auto=format&fit=crop" alt="Soil and roots" class="petal-img">
+                    <h3>The Soil: Therapy</h3>
+                    <p>We partner with elite local therapists to do the deep emotional root-work, processing trauma and building lasting resilience.</p>
+                </div>
+                <div class="petal-card">
+                    <img src="https://69a211bacc88fe0ef9bdfa55.imgix.net/MindAndFlower/20260307_1305_Image%20Generation_simple_compose_01kk51w0jcfhjr1n5z4td5632w.png?auto=format&fit=crop" alt="Sunny field wellness" class="petal-img">
+                    <h3>The Sun: Wellness</h3>
+                    <p>Referrals to Laguna’s top med spas and wellness centers for restorative longevity, aesthetics, and total self-confidence.</p>
+                </div>
+                <div class="petal-card">
+                    <img src="https://69a211bacc88fe0ef9bdfa55.imgix.net/MindAndFlower/grok-image-2ea871ec-cdbf-428f-8274-6d84f8d2ec93.png?auto=format&fit=crop" alt="Nourishing rain on leaves" class="petal-img">
+                    <h3>The Rain: Psychiatry</h3>
+                    <p>Summer provides the clinical foundation and structure—ensuring the mind is stable and ready to achieve total vitality.</p>
+                </div>
+            </div>
+            
+            <div class="btn-container" style="margin-top: 45px;">
+                <a class="btn btn-primary" onclick="showPage('contact')">Join our Mind and Flower garden</a>
+            </div>
+        </section>
+    </div>
+
+     <div id="about" class="page">
+        <section class="reveal">
+            <div class="split">
+                
+                <div>
+                     <div>
+                    <div class="profile-wrapper">
+                        <div class="profile-bg"></div>
+                        <img src="https://69a211bacc88fe0ef9bdfa55.imgix.net/MindFlower/SummerBrown.jpeg?auto=format&fit=crop" alt="Summer Brown PMHNP" class="profile-photo">
+                    </div>
+                    
+                </div>
+
+		</div>
+                <div>
+                    <span class="kicker" style="font-size: 1.1rem; letter-spacing: 4px;">Meet the Provider</span>
+                    
+                    <h2 style="font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 15px;">Nurturing the mind. Honoring the flower within.</h2>
+                    
+                    <p style="font-size: clamp(0.95rem, 2vw, 1.05rem); font-style: italic; border-left: 4px solid var(--primary); padding-left: 20px; margin-bottom: 15px;">
+                        "I believe psychiatry is more than just a diagnosis, it’s about creating an environment where you feel safe enough to unfold to discover how to nurture and honor your <strong><a onclick="showPage('home')" style="color: var(--primary); text-decoration: underline; cursor: pointer;">Mind And Flower</a></strong>.
+                    </p>
+                    
+                    <p style="font-size: 0.95rem; margin-bottom: 15px;">Summer Brown, PMHNP, is a board-certified Psychiatric Nurse Practitioner who takes a <strong><a onclick="showPage('collective')" style="color: var(--primary); cursor: pointer;">Collective</a></strong> approach by providing you with all the resources that will give you the <strong><a onclick="showPage('services')" style="color: var(--primary); cursor: pointer;">Space To Bloom</a></strong>. With over 6 years of experience, Summer embraces the full spectrum of adult life, offering care that respects the diverse experiences of all ages.</p>
+                    
+                    <div class="tag-container" style="margin: 10px 0;">
+                        <span class="tag">ADHD & Anxiety Expert</span>
+                        <span class="tag">Dementia Specialist (CDP)</span>
+                        <span class="tag">LGBTQ+ Safe Space</span>
+                        <span class="tag">In-Person & Telehealth</span>
+                    </div>
+		<div style="background: white; padding: 0px; border-radius: 25px; margin: 10px; display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; box-shadow: var(--shadow); text-align: center; max-width: 500px; border: 1px solid rgba(0,0,0,0.03);">
+
+                        <p style="margin: 0; font-size: 0.9rem; font-weight: 600; color: var(--teal);">
+                            Licensed in California (#95016588)
+                        </p>
+                        <p style="margin: 0; font-size: 0.8rem; color: var(--plum);">
+                            ANCC Board Certified • Verified by Psychology Today
+                        </p>
+                    </div>
+            </div>
+        </section>
+    </div>
+
+
+    <div id="contact" class="page">
+        <section class="bg-white reveal" style="text-align: center;">
+            <div class="text-center-box" style="margin-bottom: 30px;">
+                <span class="kicker">Start Here</span>
+                <h2>Your sanctuary for a happy heart and a fresh start.</h2>
+                <p><strong>Every heart finds its season to bloom.</strong> Reach out today for a free 15-minute consultation and discover a gentle path forward.</p>
+            </div>
+
+            <div style="max-width: 1000px; margin: 0 auto 40px auto; border-radius: 35px; overflow: hidden; box-shadow: var(--shadow); border: 6px solid white;">
+                <img src="https://69a211bacc88fe0ef9bdfa55.imgix.net/MindAndFlower/69ae5352-c331-451b-857f-6c7bcf833828.jpg?auto=format&fit=crop&w=1200&h=500" alt="Connect with our sanctuary" style="width: 100%; height: 100%; max-height: 400px; object-fit: cover; display: block;">
+            </div>
+            
+            <div class="contact-grid">
+                <div class="card" style="border: 2px solid var(--primary); padding: 40px; height: 100%;">
+                    <h3 style="color: var(--primary); margin-bottom: 20px;">Connect With Us</h3>
+                    <div style="line-height: 1.8;">
+                        <p><strong>Phone or Text:</strong><br> <a href="tel:9499905650" style="color: var(--teal); text-decoration: none; font-size: 1.1rem;">(949) 990-5650</a></p>
+                        <p style="margin-top: 18px;"><strong>Practice Locations:</strong><br> Laguna Hills • Mission Viejo<br> Statewide Telehealth (CA)</p>
+                        <p style="margin-top: 18px;"><strong>Insurances Accepted:</strong><br> Aetna, Anthem, Blue Cross, Medicare, Optum, and more.</p>
+                    </div>
+                    <div style="margin-top: auto; padding-top: 25px;">
+                        <p style="font-size: 0.75rem; opacity: 0.7; font-style: italic; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 15px;">
+                            Note: Please avoid sharing sensitive medical history via standard text or email. We will provide a secure portal link during our intake.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card" style="padding: 40px; background: var(--white);">
+                    <h3 style="color: var(--plum); margin-bottom: 20px; font-family: 'Montserrat', sans-serif; font-size: 1.4rem;">Send a Message</h3>
+                    
+                    <div id="form-container">
+                        <form id="contact-form" action="https://formspree.io/f/xpqywjda" method="POST">
+                            <div class="form-group">
+                                <label for="name">Full Name</label>
+                                <input type="text" id="name" name="name" class="form-control" placeholder="Your name" required>
+                            </div>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" id="email" name="email" class="form-control" placeholder="hello@example.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Phone Number</label>
+                                    <input type="tel" id="phone" name="phone" class="form-control" placeholder="(555) 000-0000">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="message">How can we help you bloom?</label>
+                                <textarea id="message" name="message" class="form-control" placeholder="I am reaching out regarding..." required></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px; padding: 18px;">Request a Consultation</button>
+                        </form>
+                        
+                        <div id="form-status" style="display: none; text-align: center; padding: 30px 15px; background: var(--sand); border-radius: 12px; border: 2px solid var(--primary); margin-top: 15px;">
+                            <h3 style="color: var(--primary); margin-bottom: 10px; font-family: 'Cormorant Garamond', serif; font-size: 1.8rem;">🌸 Thank you for reaching out!</h3>
+                            <p style="margin: 0; color: var(--plum); font-weight: 500; font-size: 0.9rem;">Your message has been sent to Summer. We will be in touch shortly to schedule your consultation.</p>
+                        </div>
+                    </div>
+
+                    <script>
+                        var form = document.getElementById("contact-form");
+                        var statusMessage = document.getElementById("form-status");
+
+                        form.addEventListener("submit", async function(event) {
+                            event.preventDefault(); 
+                            var data = new FormData(event.target);
+                            
+                            fetch(event.target.action, {
+                                method: form.method,
+                                body: data,
+                                headers: { 'Accept': 'application/json' }
+                            }).then(response => {
+                                if (response.ok) {
+                                    form.style.display = "none"; 
+                                    statusMessage.style.display = "block"; 
+                                    form.reset(); 
+                                } else {
+                                    alert("Oops! There was a problem submitting your form. Please check your info and try again.");
+                                }
+                            }).catch(error => {
+                                alert("Oops! There was a network problem. Please try again.");
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="reveal">
+        <img src="https://69a211bacc88fe0ef9bdfa55.imgix.net/MindAndFlower/MAFlogo.png?auto=format&fit=crop" alt="Mind and Flower Logo" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid white; box-shadow: 0 10px 25px rgba(200, 143, 207, 0.4); display: block; margin: 0 auto 25px;">
+        
+        <p style="font-family: 'Cormorant Garamond', serif; font-size: clamp(1.4rem, 3vw, 1.8rem); font-style: italic; color: var(--teal); margin:0;">“Collective healing in the light of a new day.”</p>
+        <p style="font-size: 0.85rem; opacity: 0.6; margin-top: 30px; line-height: 1.8;">
+            © 2026 The Mind And Flower Collective. <br>
+            Orange County, CA | Mission Viejo, CA 92691 <br>
+            <strong style="color: var(--primary);">Emergency? Call 911 or go to your nearest ER.</strong>
+        </p>
+    </footer>
+
+    <script>
+        const navLinks = document.getElementById('nav-links');
+        const hamburger = document.getElementById('hamburger');
+
+        function toggleMenu() {
+            navLinks.classList.toggle('nav-active');
+            hamburger.classList.toggle('toggle');
+        }
+
+        const revealOptions = {
+            threshold: 0.15, 
+            rootMargin: "0px 0px -50px 0px" 
+        };
+
+        const revealObserver = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    return;
+                } else {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, revealOptions);
+
+        function attachObserver() {
+            document.querySelectorAll('.reveal').forEach(el => {
+                el.classList.remove('active'); 
+                revealObserver.observe(el);
+            });
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(link => {
+                if(!link.classList.contains('btn-primary')) link.classList.remove('active');
+            });
+            
+            const target = document.getElementById(pageId);
+            if(target) target.classList.add('active');
+            
+            const activeLink = document.querySelector(`.nav-item[data-target="${pageId}"]`);
+            if(activeLink && !activeLink.classList.contains('btn-primary')) activeLink.classList.add('active');
+
+            if (navLinks.classList.contains('nav-active')) {
+                toggleMenu();
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(attachObserver, 100); 
+        }
+
+        window.addEventListener('DOMContentLoaded', attachObserver);
+    </script>
+</body>
+</html>
